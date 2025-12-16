@@ -100,7 +100,7 @@ body {
 
 header {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 5px;
 }
 
 header h1 {
@@ -115,6 +115,96 @@ header p {
   color: var(--muted);
   font-style: italic;
 }
+/* ================= EXPORT MODE ================= */
+.download-btn {
+  position: absolute;
+  bottom: 19px;
+  right: 28px;
+
+  width: 26px;
+  height: 26px;
+
+  min-width: 30px;
+  min-height: 27px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+
+  line-height: 0;           /* 🔥 KEY FIX */
+  box-sizing: border-box;   /* 🔥 KEY FIX */
+
+  cursor: pointer;
+}
+
+/* IMAGE / SVG SIZE — FORCE IT */
+.download-btn img {
+  width: 13px;
+  height: 13px;
+
+  max-width: 13px;
+  max-height: 13px;
+
+  display: block;
+  flex-shrink: 0;
+
+  filter: brightness(0) invert(1);
+}
+
+/* Hover */
+.download-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.45);
+  transform: translateY(-1px);
+}
+
+.download-btn:hover img {
+  filter: none;
+}
+
+
+
+
+/* 🔥 Change icon color on hover */
+.download-btn:hover svg {
+  fill: #000000;
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.download-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+
+
+
+.export-mode {
+  background: #020617 !important;
+}
+
+.export-mode * {
+  background-image: none !important;
+}
+
+/* Replace color-mix backgrounds */
+.export-mode .card,
+.export-mode .stats > div,
+.export-mode input {
+  background: #020617 !important;
+}
+
 
 /* ================= STATS ================= */
 
@@ -319,7 +409,7 @@ button:disabled {
 
 footer {
   margin-top: clamp(14px, 3vw, 20px);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--muted);
   text-align: center;
   opacity: 0.85;

@@ -13,6 +13,44 @@ const totalQuestionsEl = document.getElementById("totalQuestions");
 const updatedEl = document.getElementById("lastUpdated");
 const statusEl = document.getElementById("inputStatus");
 
+const downloadBtn = document.getElementById("downloadBtn");
+const card = document.querySelector(".card");
+const actionSection = document.querySelector(".action");
+downloadBtn.addEventListener("click", async () => {
+  try {
+    // Hide input + button
+    actionSection.style.display = "none";
+
+    // 🔥 Enable export-safe styles
+    document.body.classList.add("export-mode");
+
+    // Allow repaint
+    await new Promise(r => setTimeout(r, 150));
+
+    const canvas = await html2canvas(card, {
+      backgroundColor: "#020617",
+      scale: 2
+    });
+
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/jpeg", 0.95);
+    link.download = `dailycommit-${todayKey()}.jpg`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  } catch (err) {
+    console.error("Download failed:", err);
+    alert("Download failed. See console.");
+  } finally {
+    // 🔥 Restore UI
+    document.body.classList.remove("export-mode");
+    actionSection.style.display = "flex";
+  }
+});
+
+
 
 /* ================= DATE HELPERS (LOCAL TIME) ================= */
 function todayKey() {
