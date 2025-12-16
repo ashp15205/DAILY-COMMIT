@@ -45,10 +45,10 @@ const save = (d) =>
 
 /* ================= HEATMAP INTENSITY ================= */
 function getLevel(q) {
-  if (q >= 10) return "level-4";
-  if (q >= 6) return "level-3";
-  if (q >= 3) return "level-2";
-  if (q >= 1) return "level-1";
+  if (q >= 15) return "level-4";
+  if (q >= 10) return "level-3";
+  if (q >= 6) return "level-2";
+  if (q >= 3) return "level-1";
   return "";
 }
 
