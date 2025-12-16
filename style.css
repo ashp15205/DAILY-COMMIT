@@ -1,0 +1,341 @@
+/* ================= THEME VARIABLES ================= */
+
+:root {
+  --bg: #020617;
+  --surface: #020617;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+
+  --accent: #22c55e;
+  --accent-1: #97ffbd;
+  --accent-2: #32d06c;
+  --accent-3: #11a647;
+  --accent-4: #15803d;
+}
+
+/* ================= GLOBAL ================= */
+
+html {
+  font-size: clamp(14px, 1.1vw, 16px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= BASE ================= */
+
+body {
+  min-height: 100vh;
+  padding: 16px;
+  background: radial-gradient(
+    circle at top,
+    color-mix(in srgb, var(--surface) 85%, transparent),
+    var(--bg)
+  );
+  color: var(--text);
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    Inter,
+    sans-serif;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= CARD ================= */
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: clamp(20px, 4vw, 28px);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 24px 50px rgba(2,2,2,0.55);
+  position: relative;
+}
+
+/* Desktop expansion */
+@media (min-width: 900px) {
+  .card {
+    max-width: 720px;
+  }
+}
+
+/* Widget compact mode */
+.card.compact {
+  max-width: 320px;
+  padding: 18px;
+}
+
+.card.compact .calendar {
+  display: none;
+}
+
+/* Glow */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 22px;
+  background: linear-gradient(
+    120deg,
+    rgba(34,197,94,0.12),
+    transparent 45%,
+    transparent 55%,
+    rgba(34,197,94,0.12)
+  );
+  pointer-events: none;
+}
+
+/* ================= HEADER ================= */
+
+header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+header p {
+  margin-top: 4px;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ================= STATS ================= */
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 520px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.stats > div {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.value {
+  margin-top: 6px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.value.small {
+  font-size: 1.2rem;
+}
+
+/* ================= INPUT ================= */
+
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: none;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--text);
+  outline: 1px solid #ffffff;
+  font-size: 0.9rem;
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+input:focus {
+  outline: 1px solid var(--accent);
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+/* ================= ACTION ================= */
+
+.action {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.input-status {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ================= BUTTON ================= */
+
+button {
+  min-height: 44px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: linear-gradient(180deg, #00b3ff, #00d5ff);
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(255,255,255,0.35);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= CALENDAR ================= */
+
+.calendar {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(19,33,56,0.1);
+  backdrop-filter: blur(6px);
+  overflow-x: auto;
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 16px);
+  grid-auto-flow: column;
+  gap: 6px;
+}
+
+/* Days */
+
+.day {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: #1e293b;
+  position: relative;
+}
+
+.day.level-1 { background: var(--accent-1); }
+.day.level-2 { background: var(--accent-2); }
+.day.level-3 { background: var(--accent-3); }
+.day.level-4 { background: var(--accent-4); }
+
+/* Mobile heatmap */
+@media (max-width: 420px) {
+  .day {
+    width: 14px;
+    height: 14px;
+  }
+
+  .month-grid {
+    gap: 5px;
+  }
+}
+
+/* Tooltip */
+
+.day::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 120%;
+  background: white;
+  color: black;
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+}
+
+.day:hover::after {
+  opacity: 1;
+}
+
+/* ================= WEEKLY ================= */
+
+.weekly {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #00ffaa;
+  text-align: center;
+}
+
+/* ================= MONTH LABEL ================= */
+
+.month-label {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+  margin-top: clamp(14px, 3vw, 20px);
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.85;
+}
+
+/* ================= STREAK BREAK ================= */
+
+@keyframes streakBreak {
+  0% { transform: translateX(0); color: var(--text); }
+  20% { transform: translateX(-6px); color: #f87171; }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); color: var(--text); }
+}
+
+.streak-break {
+  animation: streakBreak 0.45s ease;
+}

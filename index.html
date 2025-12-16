@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DailyCommit</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<main class="card">
+  <header>
+    <div>
+      <h1>DailyCommit</h1>
+      <p>Consistency over intensity</p>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div>
+      <span class="label">Current Streak</span>
+      <span class="value" id="currentStreak">0</span>
+    </div>
+    <div>
+      <span class="label">Max. Streak</span>
+      <span class="value muted" id="maxStreak">0</span>
+    </div>
+  </section>
+
+  <section class="stats secondary">
+    <div>
+      <span class="label">Total Days</span>
+      <span class="value small" id="totalDays">0</span>
+    </div>
+    <div>
+      <span class="label">Questions</span>
+      <span class="value small" id="totalQuestions">0</span>
+    </div>
+  </section>
+  <p class="weekly" id="weeklyConsistency"></p>
+
+  <!-- Today -->
+  <div class="action">
+  <input id="questionInput" type="number" min="0"
+         placeholder="Questions solved today" />
+  <p id="inputStatus" class="input-status"></p>
+  <button id="checkInBtn" disabled>Done</button>
+</div>
+
+  <!-- Calendar -->
+  <section class="calendar" id="calendar"></section>
+
+  <!-- Footer -->
+  <footer id="lastUpdated"></footer>
+</main>
+
+<script src="script.js"></script>
+
+
+</body>
+</html>
