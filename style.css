@@ -347,6 +347,7 @@ button:disabled {
   border-radius: 8px;
   white-space: nowrap;
   opacity: 0;
+  bottom: -35px;
   pointer-events: none;
   z-index: 9999;
   box-shadow: 0 10px 25px rgba(0,0,0,0.45);
