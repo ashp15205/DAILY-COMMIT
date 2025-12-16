@@ -50,10 +50,20 @@
   
 </div>
 
+<div class="view-toggle">
+  <button id="heatmapView" class="active">Heatmap</button>
+  <button id="chartView">Trend</button>
+</div>
+<div class="view-container">
 
-  <!-- Calendar -->
+  <!-- Heatmap -->
   <section class="calendar" id="calendar"></section>
-  
+
+  <!-- Chart -->
+  <canvas id="dailyChart" class="chart hidden"></canvas>
+
+</div>
+
   <!-- Footer -->
   <footer id="lastUpdated"></footer>
   <button id="downloadBtn" class="download-btn" title="Download snapshot">
@@ -64,6 +74,7 @@
   
 </main>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 
 

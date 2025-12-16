@@ -16,12 +16,86 @@ const statusEl = document.getElementById("inputStatus");
 const downloadBtn = document.getElementById("downloadBtn");
 const card = document.querySelector(".card");
 const actionSection = document.querySelector(".action");
+
+const heatmapBtn = document.getElementById("heatmapView");
+const chartBtn = document.getElementById("chartView");
+const chartEl = document.getElementById("dailyChart");
+let chart;
+
+function renderChart(data) {
+  const ctx = document.getElementById("dailyChart");
+  if (!ctx) return;
+
+  const entries = Object.entries(data)
+    .filter(([_, v]) => v.questions > 0)
+    .sort(([a], [b]) => new Date(a) - new Date(b));
+
+  if (entries.length === 0) return;
+
+  const labels = entries.map(([date]) =>
+    new Date(date).toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric"
+    })
+  );
+
+  const values = entries.map(([_, v]) => v.questions);
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: "#22c55e",
+        backgroundColor: "rgba(34,197,94,0.18)",
+        tension: 0.35,
+        fill: true,
+        pointRadius: 3,
+        pointHoverRadius: 5
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 }
+        }
+      }
+    }
+  });
+}
+
+heatmapBtn.addEventListener("click", () => {
+  heatmapBtn.classList.add("active");
+  chartBtn.classList.remove("active");
+
+  calendarEl.classList.remove("hidden");
+  chartEl.classList.add("hidden");
+});
+
+chartBtn.addEventListener("click", () => {
+  chartBtn.classList.add("active");
+  heatmapBtn.classList.remove("active");
+
+  calendarEl.classList.add("hidden");
+  chartEl.classList.remove("hidden");
+
+  renderChart(load()); // render ONLY when needed
+});
+
+
 downloadBtn.addEventListener("click", async () => {
   try {
-    // Hide input + button
+    // 🔥 Hide elements you don't want in the image
     actionSection.style.display = "none";
+    downloadBtn.style.display = "none";
 
-    // 🔥 Enable export-safe styles
+    // Enable export-safe styles
     document.body.classList.add("export-mode");
 
     // Allow repaint
@@ -47,8 +121,10 @@ downloadBtn.addEventListener("click", async () => {
     // 🔥 Restore UI
     document.body.classList.remove("export-mode");
     actionSection.style.display = "flex";
+    downloadBtn.style.display = "flex";
   }
 });
+
 
 
 
