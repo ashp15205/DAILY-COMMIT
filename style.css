@@ -100,7 +100,6 @@ header h1 {
 }
 
 header p {
-  margin-top: 4px;
   font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   color: var(--muted);
   font-style: italic;
@@ -428,7 +427,7 @@ footer {
 
 .chart {
   width: 100%;
-  height: 160px;
+  height: 60px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.556);
   padding: 15px;
