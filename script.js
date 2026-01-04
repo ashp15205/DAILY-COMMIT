@@ -1,7 +1,3 @@
-
-let STORAGE_KEY = null;
-
-
 /* ================= DOM ================= */
 const calendarEl = document.getElementById("calendar");
 const input = document.getElementById("questionInput");
@@ -161,18 +157,18 @@ const load = async () => {
   }
 
   const { doc, getDoc } = window.firestoreHelpers;
+  const ref = doc(db, "users", window.STORAGE_KEY);
 
-  const ref = doc(db, "users", STORAGE_KEY);
   const snap = await getDoc(ref);
-
   return snap.exists() ? snap.data().data || {} : {};
 };
+
 const save = async (data) => {
   if (!window.db || !window.STORAGE_KEY || !window.firestoreHelpers) return;
 
   const { doc, setDoc } = window.firestoreHelpers;
+  const ref = doc(db, "users", window.STORAGE_KEY);
 
-  const ref = doc(db, "users", STORAGE_KEY);
   await setDoc(ref, {
     data,
     updatedAt: new Date()
@@ -413,7 +409,7 @@ function scheduleMidnightRefresh() {
 
 /* ================= INIT ================= */
 scheduleMidnightRefresh();
-await render();
+
 /* ================= THEME TOGGLE ================= */
 const tooltip = document.getElementById("heatmap-tooltip");
 
