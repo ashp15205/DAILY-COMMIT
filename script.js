@@ -219,46 +219,73 @@ function checkStreakBreak(data) {
 }
 
 /* ================= CALENDAR ================= */
+function getStartMonth(data) {
+  const dates = Object.keys(data).sort();
+  if (dates.length === 0) {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  }
+  const first = new Date(dates[0]);
+  return new Date(first.getFullYear(), first.getMonth(), 1);
+}
+
 function renderCalendar(data) {
   calendarEl.innerHTML = "";
 
+  const start = getStartMonth(data);
   const now = new Date();
-  const y = now.getFullYear();
-  const m = now.getMonth();
 
-  const monthWrapper = document.createElement("div");
-  monthWrapper.className = "month";
+  let cur = new Date(start.getFullYear(), start.getMonth(), 1);
 
-  const grid = document.createElement("div");
-  grid.className = "month-grid";
+  while (
+    cur.getFullYear() < now.getFullYear() ||
+    (cur.getFullYear() === now.getFullYear() &&
+     cur.getMonth() <= now.getMonth())
+  ) {
+    const y = cur.getFullYear();
+    const m = cur.getMonth();
 
-  const firstDay = new Date(y, m, 1).getDay();
-  const totalDays = daysInMonth(y, m);
+    const monthWrapper = document.createElement("div");
+    monthWrapper.className = "month";
 
-  // Empty leading cells
-  for (let i = 0; i < firstDay; i++) {
-    grid.appendChild(document.createElement("div"));
+    const grid = document.createElement("div");
+    grid.className = "month-grid";
+
+    const firstDay = new Date(y, m, 1).getDay();
+    const totalDays = daysInMonth(y, m);
+
+    // Empty leading cells
+    for (let i = 0; i < firstDay; i++) {
+      grid.appendChild(document.createElement("div"));
+    }
+
+    for (let d = 1; d <= totalDays; d++) {
+      const cell = document.createElement("div");
+      const dateKey = `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      const q = data[dateKey]?.questions || 0;
+
+      cell.className = "day " + getLevel(q);
+      cell.dataset.tooltip = `${dateKey}: ${q} questions`;
+
+      grid.appendChild(cell);
+    }
+
+    const label = document.createElement("div");
+    label.className = "month-label";
+    label.textContent = new Date(y, m).toLocaleString("default", {
+      month: "long",
+      year: "numeric"
+    });
+
+    monthWrapper.appendChild(grid);
+    monthWrapper.appendChild(label);
+    calendarEl.appendChild(monthWrapper);
+
+    // Move to next month
+    cur.setMonth(cur.getMonth() + 1);
   }
-
-  for (let d = 1; d <= totalDays; d++) {
-    const cell = document.createElement("div");
-    const dateKey = `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-    const q = data[dateKey]?.questions || 0;
-
-    cell.className = "day " + getLevel(q);
-    cell.dataset.tooltip = `${dateKey}: ${q} questions`;
-
-    grid.appendChild(cell);
-  }
-
-  const label = document.createElement("div");
-  label.className = "month-label";
-  label.textContent = now.toLocaleString("default", { month: "long" });
-
-  monthWrapper.appendChild(grid);
-  monthWrapper.appendChild(label);
-  calendarEl.appendChild(monthWrapper);
 }
+
 function calculateWeeklyConsistency(data) {
   let count = 0;
   const d = new Date();
