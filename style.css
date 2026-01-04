@@ -343,34 +343,33 @@ button:disabled {
     gap: 5px;
   }
 }
+.day {
+  position: relative;
+  z-index: 1;                 /* base stacking */
+}
 
-.day::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px);
+.day:hover {
+  z-index: 999;               /* hovered cell on top */
+}
 
-  bottom: 100%;       
-  margin-bottom: 8px;
-
-  background: white;
-  color: black;
+#heatmap-tooltip {
+  position: fixed;              /* 🔥 escapes ALL containers */
+  background: #ffffff;
+  color: #000000;
   padding: 6px 10px;
   font-size: 0.65rem;
   border-radius: 8px;
   white-space: nowrap;
 
-  opacity: 0;
   pointer-events: none;
-  z-index: 9999;
-
+  z-index: 999999;              /* always on top */
+  
+  opacity: 0;
+  transform: translate(-50%, -100%);
+  transition: opacity 0.12s ease;
   box-shadow: 0 10px 25px rgba(0,0,0,0.45);
 }
 
-
-.day:hover::after {
-  opacity: 1;
-}
 
 .weekly {
   margin-top: px;
