@@ -1,151 +1,528 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>DailyCommit</title>
+:root {
+  --bg: #020617;
+  --surface: #020617;
+  --text: #f8fafc;
+  --muted: #94a3b8;
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  --accent: #22c55e;
+  --accent-1: #93ffbb;
+  --accent-2: #51cd7e;
+  --accent-3: #2ba255;
+  --accent-4: #005f23;
+}
 
-<main class="card">
-  <div class="user-bar">
-  <div class="user-info">
-    <img id="userAvatar" alt="User avatar" />
-    <span id="userName"></span>
-  </div>
+html {
+  font-size: clamp(14px, 1.1vw, 16px);
+}
 
-  <button id="logoutBtn" class="logout-btn">Logout</button>
-</div>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+body {
+  min-height: 100vh;
+  padding: 16px;
+  background: radial-gradient(
+    circle at top,
+    color-mix(in srgb, var(--surface) 85%, transparent),
+    var(--bg)
+  );
+  color: var(--text);
 
-  <header>
-    <div>
-      <h1>DailyCommit</h1>
-      <p>Consistency over intensity</p>
-    </div>
-  </header>
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    Inter,
+    sans-serif;
 
-  <!-- Stats -->
-  <section class="stats">
-    <div>
-      <span class="label">Current Streak</span>
-      <span class="value" id="currentStreak">0</span>
-    </div>
-    <div>
-      <span class="label">Max. Streak</span>
-      <span class="value muted" id="maxStreak">0</span>
-    </div>
-  </section>
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  <section class="stats secondary">
-    <div>
-      <span class="label">Total Days</span>
-      <span class="value small" id="totalDays">0</span>
-    </div>
-    <div>
-      <span class="label">Questions</span>
-      <span class="value small" id="totalQuestions">0</span>
-    </div>
-  </section>
-  <p class="weekly" id="weeklyConsistency"></p>
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: clamp(20px, 4vw, 28px);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: 0 24px 50px rgba(2,2,2,0.55);
+  position: relative;
+}
 
-  <!-- Today -->
-  <div class="action">
-  <input id="questionInput" type="number" min="0"
-         placeholder="Questions solved today" />
-  <p id="inputStatus" class="input-status"></p>
-  <button id="checkInBtn" disabled>Done</button>
+/* Desktop expansion */
+@media (min-width: 900px) {
+  .card {
+    max-width: 720px;
+  }
+}
+
+/* Widget compact mode */
+.card.compact {
+  max-width: 320px;
+  padding: 18px;
+}
+
+.card.compact .calendar {
+  display: none;
+}
+
+/* Glow */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 22px;
+  background: linear-gradient(
+    120deg,
+    rgba(34,197,94,0.12),
+    transparent 45%,
+    transparent 55%,
+    rgba(34,197,94,0.12)
+  );
+  pointer-events: none;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+header p {
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.download-btn {
+  position: absolute;
+  bottom: 22px;
+  right: 28px;
+
+  width: 26px;
+  height: 28px;
+
+  min-width: 30px;
+  min-height: 27px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+
+  line-height: 0;           /* 🔥 KEY FIX */
+  box-sizing: border-box;   /* 🔥 KEY FIX */
+
+  cursor: pointer;
+}
+
+.download-btn img {
+  width: 13px;
+  height: 13px;
+
+  max-width: 13px;
+  max-height: 13px;
+
+  display: block;
+  flex-shrink: 0;
+
+  filter: brightness(0) invert(1);
+}
+
+/* Hover */
+.download-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.45);
+  transform: translateY(-1px);
+}
+
+.download-btn:hover img {
+  filter: none;
+}
+
+.download-btn:hover svg {
+  fill: #000000;
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.download-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.export-mode {
+  background: #020617 !important;
+}
+
+.export-mode * {
+  background-image: none !important;
+}
+
+/* Replace color-mix backgrounds */
+.export-mode .card,
+.export-mode .stats > div,
+.export-mode input {
+  background: #020617 !important;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 520px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.stats > div {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.value {
+  margin-top: 6px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.value.small {
+  font-size: 1.2rem;
+}
+
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: none;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--text);
+  outline: 1px solid #ffffff;
+  font-size: 0.9rem;
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+input:focus {
+  outline: 1px solid var(--accent);
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+.action {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.input-status {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ================= BUTTON ================= */
+
+button {
+  min-height: 44px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: linear-gradient(180deg, #00b3ff, #00d5ff);
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(255,255,255,0.35);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.calendar {
+  margin-top: 18px;
+  padding: 28px 18px 18px;  /* 🔥 changed */
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(19,33,56,0.1);
+  backdrop-filter: blur(6px);
+
+  overflow: visible;
+  position: relative;
+}
+
+.calendar-scroll {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 16px);
+  grid-auto-flow: column;
+  gap: 6px;
+}
+
+.day {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: #1e293b;
+  position: relative;
+}
+
+.day.level-1 { background: var(--accent-1); }
+.day.level-2 { background: var(--accent-2); }
+.day.level-3 { background: var(--accent-3); }
+.day.level-4 { background: var(--accent-4); }
+
+/* Mobile heatmap */
+@media (max-width: 420px) {
+  .day {
+    width: 14px;
+    height: 14px;
+  }
+
+  .month-grid {
+    gap: 5px;
+  }
+}
+.day {
+  position: relative;
+  z-index: 1;                 /* base stacking */
+}
+
+.day:hover {
+  z-index: 999;               /* hovered cell on top */
+}
+
+#heatmap-tooltip {
+  position: fixed;              /* 🔥 escapes ALL containers */
+  background: #ffffff;
+  color: #000000;
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  border-radius: 8px;
+  white-space: nowrap;
+
+  pointer-events: none;
+  z-index: 999999;              /* always on top */
   
-</div>
-
-<div class="view-toggle">
-  <button id="heatmapView" class="active">Heatmap</button>
-  <button id="chartView">Trend</button>
-</div>
-<div class="view-container">
-
-  <!-- Heatmap -->
-<section class="calendar">
-  <div class="calendar-scroll" id="calendar"></div>
-</section>
+  opacity: 0;
+  transform: translate(-50%, -100%);
+  transition: opacity 0.12s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+}
 
 
-  <!-- Chart -->
-  <canvas id="dailyChart" class="chart hidden"></canvas>
+.weekly {
+  margin-top: px;
+  font-size: 0.8rem;
+  color: #00ffaa;
+  text-align: center;
+}
 
-</div>
+.month-label {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
 
-  <!-- Footer -->
-  <footer id="lastUpdated"></footer>
-  <button id="downloadBtn" class="download-btn" title="Download snapshot">
-  <img src="downloads.png" alt="Download" />
-</button>
+footer {
+  margin-top: clamp(14px, 3vw, 20px);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.85;
+}
 
+@keyframes streakBreak {
+  0% { transform: translateX(0); color: var(--text); }
+  20% { transform: translateX(-6px); color: #f87171; }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); color: var(--text); }
+}
 
-  <div id="heatmap-tooltip"></div>
+.streak-break {
+  animation: streakBreak 0.45s ease;
+}
 
-</main>
-<!-- Firebase Auth Guard -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+.view-toggle {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+}
 
-<script type="module" src="script.js"></script>   <!-- render defined FIRST -->
+.view-toggle button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+.view-toggle button.active {
+  background: #ffffff;
+  color: #020617;
+}
 
-  const firebaseConfig = {
-      apiKey: "AIzaSyCyhdCaJBaMANyVnDjjjjN6CohTRFQ3QvM",
-      authDomain: "dailycommit-44508.firebaseapp.com",
-      projectId: "dailycommit-44508",
-      appId: "1:702924822450:web:0dbc70d4ee1dae89d776ab"
-    };
+.hidden {
+  display: none !important;
+}
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+.view-container {
+  width: 100%;
+  margin-top: 16px;
+  color: white;
+}
 
-  window.db = db;
-  window.firestoreHelpers = { doc, getDoc, setDoc };
+.chart {
+  width: 100%;
+  height: 60px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.556);
+  padding: 15px;
+}
 
-  const logoutBtn = document.getElementById("logoutBtn");
+/* ================= USER BAR ================= */
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = "index.html";
-      return;
-    }
+/* ===== USER BAR ===== */
+.user-bar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 
-    window.STORAGE_KEY = `dailycommit-${user.uid}`;
-    document.getElementById("userAvatar").src =
-      user.photoURL || "default-avatar.png";
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-    document.getElementById("userName").textContent =
-      user.displayName || "User";
+  z-index: 20;
+}
 
-    await window.render();   // ✅ NOW render exists
-  });
+/* User info */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  logoutBtn.onclick = async () => {
-    const ok = confirm("Log out from DailyCommit?");
-    if (!ok) return;
-    await signOut(auth);
-    window.location.href = "index.html";
-  };
-</script>
+#userAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.25);
+}
 
+#userName {
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
+/* Right: logout button */
+.logout-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
 
+  font-size: 0.75rem;
+  font-weight: 500;
 
-</body>
-</html>
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.logout-btn:hover {
+  background: #ffffff;
+  color: #020617;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.logout-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
