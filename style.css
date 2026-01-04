@@ -287,18 +287,17 @@ button:disabled {
 }
 
 .calendar {
-  display: flex;              /* 🔥 REQUIRED */
-  gap: 22px;                  /* spacing between months */
-  align-items: flex-start;
-
   margin-top: 18px;
   padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(19,33,56,0.1);
   backdrop-filter: blur(6px);
-  overflow-x: auto;
+
+  overflow: visible;     /* ✅ allow tooltip escape */
+  position: relative;
 }
+
 
 
 .month {
