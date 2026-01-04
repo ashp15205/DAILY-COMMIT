@@ -240,7 +240,7 @@ function renderCalendar(data) {
   while (
     cur.getFullYear() < now.getFullYear() ||
     (cur.getFullYear() === now.getFullYear() &&
-     cur.getMonth() <= now.getMonth())
+      cur.getMonth() <= now.getMonth())
   ) {
     const y = cur.getFullYear();
     const m = cur.getMonth();
@@ -266,14 +266,13 @@ function renderCalendar(data) {
 
       cell.className = "day " + getLevel(q);
       cell.dataset.tooltip = `${dateKey}: ${q} questions`;
-
       grid.appendChild(cell);
     }
 
     const label = document.createElement("div");
     label.className = "month-label";
-    label.textContent = new Date(y, m).toLocaleString("default", {
-      month: "long",
+    label.textContent = cur.toLocaleString("default", {
+      month: "short",
       year: "numeric"
     });
 
@@ -281,10 +280,15 @@ function renderCalendar(data) {
     monthWrapper.appendChild(label);
     calendarEl.appendChild(monthWrapper);
 
-    // Move to next month
     cur.setMonth(cur.getMonth() + 1);
   }
+
+  // auto-scroll to latest month
+  requestAnimationFrame(() => {
+    calendarEl.scrollLeft = calendarEl.scrollWidth;
+  });
 }
+
 
 function calculateWeeklyConsistency(data) {
   let count = 0;
