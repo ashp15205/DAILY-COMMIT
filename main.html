@@ -135,7 +135,7 @@
     document.getElementById("userName").textContent =
       user.displayName || "User";
 
-    await render(); // 🔥 correct
+    await window.render(); // 🔥 correct
   });
 
   logoutBtn.onclick = async () => {
