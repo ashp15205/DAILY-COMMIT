@@ -388,3 +388,25 @@ function scheduleMidnightRefresh() {
 scheduleMidnightRefresh();
 render();
 /* ================= THEME TOGGLE ================= */
+const tooltip = document.getElementById("heatmap-tooltip");
+
+document.addEventListener("mouseover", (e) => {
+  const cell = e.target.closest(".day");
+  if (!cell) return;
+
+  const rect = cell.getBoundingClientRect();
+
+  tooltip.textContent = cell.dataset.tooltip;
+
+  // 🔥 Position tooltip centered ABOVE the day
+  tooltip.style.left = rect.left + rect.width / 2 + "px";
+  tooltip.style.top = rect.top - 8 + "px";
+
+  tooltip.style.opacity = "1";
+});
+
+document.addEventListener("mouseout", (e) => {
+  if (e.target.closest(".day")) {
+    tooltip.style.opacity = "0";
+  }
+});
