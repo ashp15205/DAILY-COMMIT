@@ -78,16 +78,16 @@ heatmapBtn.addEventListener("click", () => {
 });
 
 
-chartBtn.addEventListener("click", () => {
+chartBtn.addEventListener("click", async () => {
   chartBtn.classList.add("active");
   heatmapBtn.classList.remove("active");
 
-  calendarSection.classList.add("hidden");    // 🔥
+  calendarSection.classList.add("hidden");
   chartEl.classList.remove("hidden");
 
-  renderChart(load());
+  const data = await load();   // 🔥 important
+  renderChart(data);
 });
-
 
 downloadBtn.addEventListener("click", async () => {
   try {
