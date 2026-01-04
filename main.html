@@ -115,7 +115,11 @@
 
   // Make db available globally for script.js
   window.db = db;
-
+    window.firestoreHelpers = {
+  doc,
+  getDoc,
+  setDoc
+};
   // Protect page + load user
   const logoutBtn = document.getElementById("logoutBtn");
 
