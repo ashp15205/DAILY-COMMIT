@@ -328,7 +328,7 @@ function calculateWeeklyConsistency(data) {
 
 
 /* ================= RENDER ================= */
-async function render() {
+window.render = async function render() {
   const data = await load();
 
   renderCalendar(data);
