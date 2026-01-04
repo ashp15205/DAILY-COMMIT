@@ -298,6 +298,14 @@ button:disabled {
   position: relative;
 }
 
+.calendar-scroll {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
 .month {
   display: flex;
   flex-direction: column;
