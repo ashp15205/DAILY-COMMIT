@@ -287,6 +287,7 @@ button:disabled {
 }
 
 .calendar {
+  
   margin-top: 18px;
   padding: 18px;
   border-radius: 18px;
@@ -295,6 +296,7 @@ button:disabled {
   backdrop-filter: blur(6px);
   overflow-x: auto;
 }
+
 
 .month {
   display: flex;
