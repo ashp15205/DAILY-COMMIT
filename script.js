@@ -155,19 +155,22 @@ function daysInMonth(y, m) {
 }
 
 /* ================= STORAGE ================= */
-const { doc, getDoc, setDoc } = window.firestoreHelpers;
-
 const load = async () => {
-  if (!STORAGE_KEY) return {};
+  if (!window.db || !window.STORAGE_KEY || !window.firestoreHelpers) {
+    return {};
+  }
+
+  const { doc, getDoc } = window.firestoreHelpers;
 
   const ref = doc(db, "users", STORAGE_KEY);
   const snap = await getDoc(ref);
 
-  return snap.exists() ? snap.data().data : {};
+  return snap.exists() ? snap.data().data || {} : {};
 };
-
 const save = async (data) => {
-  if (!STORAGE_KEY) return;
+  if (!window.db || !window.STORAGE_KEY || !window.firestoreHelpers) return;
+
+  const { doc, setDoc } = window.firestoreHelpers;
 
   const ref = doc(db, "users", STORAGE_KEY);
   await setDoc(ref, {
@@ -175,8 +178,6 @@ const save = async (data) => {
     updatedAt: new Date()
   });
 };
-
-
 
 
 /* ================= HEATMAP INTENSITY ================= */
@@ -368,9 +369,11 @@ weeklyEl.textContent = `Weekly progress: ${weeklyCount} / 7 ${weeklyCount === 1 
 }
 
 /* ================= EVENTS ================= */
-input.addEventListener("input", () => {
-  btn.disabled = !!load()[todayKey()] || Number(input.value) <= 0;
+input.addEventListener("input", async () => {
+  const data = await load();
+  btn.disabled = !!data[todayKey()] || Number(input.value) <= 0;
 });
+
 
 btn.addEventListener("click", async () => {
   const q = Number(input.value);
@@ -410,7 +413,7 @@ function scheduleMidnightRefresh() {
 
 /* ================= INIT ================= */
 scheduleMidnightRefresh();
-render();
+await render();
 /* ================= THEME TOGGLE ================= */
 const tooltip = document.getElementById("heatmap-tooltip");
 
