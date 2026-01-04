@@ -2,8 +2,6 @@
 
 **DailyCommit** is a minimal, offline-first web app that helps developers build a **daily coding habit** by tracking consistency instead of competition.
 
-No accounts.  
-No pressure.  
 Just commit every day.
 
 
