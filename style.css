@@ -450,35 +450,41 @@ footer {
 
 /* ================= USER BAR ================= */
 
+/* ===== USER BAR ===== */
 .user-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-}
+  position: absolute;
+  top: 16px;
+  right: 16px;
 
-/* Left: avatar + name */
-.user-info {
   display: flex;
   align-items: center;
   gap: 10px;
+
+  z-index: 20;
 }
 
-.user-info img {
-  width: 32px;
-  height: 32px;
+/* User info */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#userAvatar {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   object-fit: cover;
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.25);
 }
 
-.user-info span {
+#userName {
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text);
+  color: var(--muted);
+  max-width: 120px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Right: logout button */
