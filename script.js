@@ -1,5 +1,6 @@
 
-const STORAGE_KEY = "dailycommit-data";
+let STORAGE_KEY = null;
+
 
 /* ================= DOM ================= */
 const calendarEl = document.getElementById("calendar");
@@ -154,11 +155,26 @@ function daysInMonth(y, m) {
 }
 
 /* ================= STORAGE ================= */
-const load = () =>
-  JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+const load = async () => {
+  if (!STORAGE_KEY) return {};
 
-const save = (d) =>
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+  const ref = doc(db, "users", STORAGE_KEY);
+  const snap = await getDoc(ref);
+
+  return snap.exists() ? snap.data().data : {};
+};
+
+const save = async (data) => {
+  if (!STORAGE_KEY) return;
+
+  const ref = doc(db, "users", STORAGE_KEY);
+  await setDoc(ref, {
+    data,
+    updatedAt: new Date()
+  });
+};
+
+
 
 /* ================= HEATMAP INTENSITY ================= */
 function getLevel(q) {
@@ -308,8 +324,8 @@ function calculateWeeklyConsistency(data) {
 
 
 /* ================= RENDER ================= */
-function render() {
-  const data = load();
+async function render() {
+  const data = await load();
 
   renderCalendar(data);
 
