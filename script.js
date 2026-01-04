@@ -20,6 +20,8 @@ const actionSection = document.querySelector(".action");
 const heatmapBtn = document.getElementById("heatmapView");
 const chartBtn = document.getElementById("chartView");
 const chartEl = document.getElementById("dailyChart");
+const calendarSection = document.querySelector(".calendar");
+
 let chart;
 
 function renderChart(data) {
@@ -74,18 +76,19 @@ heatmapBtn.addEventListener("click", () => {
   heatmapBtn.classList.add("active");
   chartBtn.classList.remove("active");
 
-  calendarEl.classList.remove("hidden");
+  calendarSection.classList.remove("hidden"); // 🔥
   chartEl.classList.add("hidden");
 });
+
 
 chartBtn.addEventListener("click", () => {
   chartBtn.classList.add("active");
   heatmapBtn.classList.remove("active");
 
-  calendarEl.classList.add("hidden");
+  calendarSection.classList.add("hidden");    // 🔥
   chartEl.classList.remove("hidden");
 
-  renderChart(load()); // render ONLY when needed
+  renderChart(load());
 });
 
 
