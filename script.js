@@ -155,6 +155,8 @@ function daysInMonth(y, m) {
 }
 
 /* ================= STORAGE ================= */
+const { doc, getDoc, setDoc } = window.firestoreHelpers;
+
 const load = async () => {
   if (!STORAGE_KEY) return {};
 
@@ -173,6 +175,7 @@ const save = async (data) => {
     updatedAt: new Date()
   });
 };
+
 
 
 
@@ -369,17 +372,19 @@ input.addEventListener("input", () => {
   btn.disabled = !!load()[todayKey()] || Number(input.value) <= 0;
 });
 
-btn.addEventListener("click", () => {
+btn.addEventListener("click", async () => {
   const q = Number(input.value);
   if (q <= 0) return;
 
-  const data = load();
+  const data = await load();
   data[todayKey()] = { questions: q };
-  save(data);
+
+  await save(data);
+  await render();
 
   input.value = "";
-  render();
 });
+
 
 /* Keyboard shortcuts */
 document.addEventListener("keydown", (e) => {
