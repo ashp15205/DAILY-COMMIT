@@ -288,17 +288,15 @@ button:disabled {
 
 .calendar {
   margin-top: 18px;
-  padding: 18px;
+  padding: 28px 18px 18px;  /* 🔥 changed */
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(19,33,56,0.1);
   backdrop-filter: blur(6px);
 
-  overflow: visible;     /* ✅ allow tooltip escape */
+  overflow: visible;
   position: relative;
 }
-
-
 
 .month {
   display: flex;
@@ -342,20 +340,25 @@ button:disabled {
   content: attr(data-tooltip);
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  bottom: 120%;
+  transform: translateX(-50%) translateY(-6px);
+
+  bottom: 100%;       
+  margin-bottom: 8px;
+
   background: white;
   color: black;
   padding: 6px 10px;
   font-size: 0.65rem;
   border-radius: 8px;
   white-space: nowrap;
+
   opacity: 0;
-  bottom: -35px;
   pointer-events: none;
   z-index: 9999;
+
   box-shadow: 0 10px 25px rgba(0,0,0,0.45);
 }
+
 
 .day:hover::after {
   opacity: 1;
